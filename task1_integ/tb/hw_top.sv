@@ -17,25 +17,22 @@ module hw_top;
   logic         clock;
   logic         reset;
 
+  // clock_and_reset interface
+  clock_and_reset_if clk_if(.clock, .reset, .run_clock, .clock_period);
+
+  // instantiate the clkgen module
+  clkgen clk_inst(.clock, .run_clock, .clock_period);
+
   // YAPP Interface to the DUT
-  yapp_if in0(clock, reset);
+  yapp_if yapp_if_inst(.clock, .reset);
 
-  // CLKGEN module generates clock
-  clkgen clkgen (
-    .clock(clock),
-    .run_clock(1'b1),
-    .clock_period(32'd10)
-  );
+  // Instantiate the HBUS interface
+  hbus_if hbus_if_inst(.clock, .reset);
 
-  initial begin
-    reset <= 1'b0;
-    // in0.in_suspend <= 1'b0;
-    @(negedge clock)
-      #1 reset <= 1'b1;
-    @(negedge clock)
-      #1 reset <= 1'b0;
-  end
-
+  // Instantiate the channel interfaces
+  channel_if channel_if_inst0(.clock, .reset);
+  channel_if channel_if_inst1(.clock, .reset);
+  channel_if channel_if_inst2(.clock, .reset);
 
   yapp_router dut(
     .reset,
@@ -43,29 +40,29 @@ module hw_top;
     .error(),
 
     // YAPP interface
-    .in_data(in0.in_data),
-    .in_data_vld(in0.in_data_vld),
-    .in_suspend(in0.in_suspend),
+    .in_data(yapp_if_inst.in_data),
+    .in_data_vld(yapp_if_inst.in_data_vld),
+    .in_suspend(yapp_if_inst.in_suspend),
 
     // Output Channels
     //Channel 0
-    .data_0(),
-    .data_vld_0(),
-    .suspend_0(0),
+    .data_0(channel_if_inst0.data),
+    .data_vld_0(channel_if_inst0.data_vld),
+    .suspend_0(channel_if_inst0.suspend),
     //Channel 1
-    .data_1(),
-    .data_vld_1(),
-    .suspend_1(0),
+    .data_1(channel_if_inst1.data),
+    .data_vld_1(channel_if_inst1.data_vld),
+    .suspend_1(channel_if_inst1.suspend),
     //Channel 2
-    .data_2(),
-    .data_vld_2(),
-    .suspend_2(0),
+    .data_2(channel_if_inst2.data),
+    .data_vld_2(channel_if_inst2.data_vld),
+    .suspend_2(channel_if_inst2.suspend),
 
     // HBUS Interface 
-    .haddr(),
-    .hdata(),
-    .hen(),
-    .hwr_rd()
+    .haddr(hbus_if_inst.haddr),
+    .hdata(hbus_if_inst.hdata_w),
+    .hen(hbus_if_inst.hen),
+    .hwr_rd(hbus_if_inst.hwr_rd)
     );
 
 
