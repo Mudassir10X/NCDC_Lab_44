@@ -16,6 +16,7 @@ module hw_top;
   logic         run_clock;
   logic         clock;
   logic         reset;
+  logic         error;
 
   // clock_and_reset interface
   clock_and_reset_if clk_if(.clock, .reset, .run_clock, .clock_period);
@@ -37,7 +38,7 @@ module hw_top;
   yapp_router dut(
     .reset,
     .clock,
-    .error(),
+    .error,
 
     // YAPP interface
     .in_data(yapp_if_inst.in_data),

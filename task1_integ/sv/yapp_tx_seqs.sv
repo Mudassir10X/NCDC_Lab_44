@@ -103,7 +103,7 @@ class yapp_012_seq extends yapp_base_seq;
     // `uvm_do_with(req, {addr == 2;})
     `uvm_create(s_packet)
     s_packet.invalid_addr_c.constraint_mode(0);
-    `uvm_rand_send(s_packet)
+    `uvm_rand_send_with(s_packet, {addr == 2;});
   endtask
 endclass //yapp_012_seq extends yapp_base_seq
 
