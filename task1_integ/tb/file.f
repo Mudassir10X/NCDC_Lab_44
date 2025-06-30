@@ -5,16 +5,25 @@
 
 // include directories
 //*** add incdir include directories here
--incdir ../router/rtl
--incdir ../sv/
--incdir ../tb/
+-incdir ../router_rtl
+-incdir ../task1_integ/sv/
+-incdir ../task1_integ/tb/
+-incdir ../channel/sv
+-incdir ../clock_and_reset/sv
+-incdir ../hbus/sv
 
 // compile files
 //*** add compile files here
-../sv/yapp_pkg.sv
-../sv/yapp_if.sv
-../tb/clkgen.sv
-../tb/top.sv
+../channel/sv/channel_pkg.sv
+../channel/sv/channel_if.sv
+../clock_and_reset/sv/clock_and_reset_pkg.sv
+../clock_and_reset/sv/clock_and_reset_if.sv
+../hbus/sv/hbus_pkg.sv
+../hbus/sv/hbus_if.sv
+../task1_integ/sv/yapp_pkg.sv
+../task1_integ/sv/yapp_if.sv
+../task1_integ/tb/clkgen.sv
+../task1_integ/tb/top.sv
 ../router_rtl/yapp_router.sv
-../tb/hw_top.sv
+../task1_integ/tb/hw_top.sv
 
