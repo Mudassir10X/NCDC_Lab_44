@@ -243,3 +243,63 @@ class yapp_exhaustive_seq extends yapp_base_seq;
     `uvm_do(inst_six_yapp_seq)
   endtask
 endclass
+
+class yapp_exhaustive_all_seq extends yapp_base_seq;
+  `uvm_object_utils(yapp_exhaustive_all_seq)
+
+  function new(string name = "yapp_exhaustive_all_seq");
+    super.new(name);
+  endfunction
+
+  // Sequence body definition
+  virtual task body();
+    short_yapp_packet s_packet;
+    int Length;
+    `uvm_info(get_type_name(), "Executing yapp_exhaustive_all_seq sequence", UVM_LOW)
+    
+    for (Length = 1; Length < 23; Length++) begin
+      `uvm_create(s_packet)
+      s_packet.invalid_addr_c.constraint_mode(0);
+      s_packet.addr_c.constraint_mode(0);
+      s_packet.packet_length_c.constraint_mode(0);
+      s_packet.parity_c.constraint_mode(0);
+      if (s_packet.randomize() with {addr == 0; length == Length; parity_type dist {GOOD_PARITY :=80, BAD_PARITY := 20};})
+        `uvm_send(s_packet)
+      else 
+        $fatal("Randomization failed for s_packet with addr 0 and length %0d", Length);
+    end
+    for (Length = 1; Length < 23; Length++) begin
+      `uvm_create(s_packet)
+      s_packet.invalid_addr_c.constraint_mode(0);
+      s_packet.addr_c.constraint_mode(0);
+      s_packet.packet_length_c.constraint_mode(0);
+      s_packet.parity_c.constraint_mode(0);
+      if (s_packet.randomize() with {addr == 1; length == Length; parity_type dist {GOOD_PARITY :=80, BAD_PARITY := 20};})
+        `uvm_send(s_packet)
+      else 
+        $fatal("Randomization failed for s_packet with addr 0 and length %0d", Length);
+    end
+    for (Length = 1; Length < 23; Length++) begin
+      `uvm_create(s_packet)
+      s_packet.invalid_addr_c.constraint_mode(0);
+      s_packet.addr_c.constraint_mode(0);
+      s_packet.packet_length_c.constraint_mode(0);
+      s_packet.parity_c.constraint_mode(0);
+      if (s_packet.randomize() with {addr == 2; length == Length; parity_type dist {GOOD_PARITY :=80, BAD_PARITY := 20};})
+        `uvm_send(s_packet)
+      else 
+        $fatal("Randomization failed for s_packet with addr 0 and length %0d", Length);
+    end
+    for (Length = 1; Length < 23; Length++) begin
+      `uvm_create(s_packet)
+      s_packet.invalid_addr_c.constraint_mode(0);
+      s_packet.addr_c.constraint_mode(0);
+      s_packet.packet_length_c.constraint_mode(0);
+      s_packet.parity_c.constraint_mode(0);
+      if (s_packet.randomize() with {addr == 3; length == Length; parity_type dist {GOOD_PARITY :=80, BAD_PARITY := 20};})
+        `uvm_send(s_packet)
+      else 
+        $fatal("Randomization failed for s_packet with addr 0 and length %0d", Length);
+    end
+  endtask
+endclass
